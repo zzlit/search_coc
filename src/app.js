@@ -1,6 +1,7 @@
 import '@tarojs/async-await'
-import Taro, { Component } from '@tarojs/taro'
+import Taro, { Component, Config } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
+import 'taro-ui/dist/style/index.scss'
 
 import Index from './pages/index'
 
@@ -20,13 +21,31 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/index/index'
+      'pages/index/index',
+      'pages/search/index',
+      'pages_sub/index/person_info/index',
+      'pages_sub/index/clan_info/index'
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarBackgroundColor: '#FFF',
+      navigationBarTitleText: '部落冲突查询助手',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      borderStyle: 'black',
+      backgroundColor: '#FFF',
+      color: '#999',
+      selectedColor: '#4B0082',
+      list: [
+        {
+          pagePath: 'pages/index/index',
+          text: '首页'
+        },
+        {
+          pagePath: 'pages/search/index',
+          text: '查询'
+        }]
     }
   }
 

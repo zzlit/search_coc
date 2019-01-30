@@ -1,0 +1,1 @@
+export const request_url = "https://api.clashofclans.com/"
