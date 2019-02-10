@@ -1,6 +1,9 @@
 
-// 请求接口地址
+// 请求接口地址,需要token
 export const request_url = "https://api.clashofclans.com/"
+
+// 请求接口地址，不需要token
+export const request_url_notoken = "https://api.clashofstats.com/"
 
 // 本地图片地址
 export const image_url = "/static/images/"

@@ -48,10 +48,7 @@ class Index extends Component {
     //   title: '正在搜索',
     //   mask: true
     // })
-    let search = await Taro.request({
-      url: 'https://api.clashofstats.com/search/players?q=%E8%8D%86%E6%A3%98%E3%80%82&page=0&nameEquality=false',
-      method: 'GET'
-    })
+    let search = await api.get('search/players?q=%E8%8D%86%E6%A3%98%E3%80%82&page=0&nameEquality=false')
     console.log(search)
     // let res = await api.get(`v1/players/%23${this.state.playerFlag}`)
     // if (res.statusCode * 1 === 200) {
