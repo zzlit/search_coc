@@ -107,7 +107,7 @@ class Index extends Component {
               onInput={this.handlePlayerId.bind(this)}
               className='input font-14 bg-fff relative'
               type='text'
-              placeholder='请直接输入玩家名称或者玩家标签'
+              placeholder='查询玩家（输入名称或标签）'
               placeholderStyle='color: #9B9B9B; font-size: 14px;'
             />
             <AtButton
@@ -127,7 +127,7 @@ class Index extends Component {
               onInput={this.handleChangeClans.bind(this)}
               className='input font-14 bg-fff relative'
               type='text'
-              placeholder='请直接输入部落名称或者部落标签'
+              placeholder='查询部落（输入名称或标签）'
               placeholderStyle='color: #9B9B9B; font-size: 14px;'
             />
             <AtButton

@@ -1,9 +1,37 @@
 .operate {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  width: 80%;
+  margin: 40px auto 0;
+  padding: 20px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  &:after {
+    content:'';
+    position: absolute;
+    bottom: 100%;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-width: 20px;
+    border-style: solid;
+    border-color: transparent;
+    border-bottom-width: 32px;
+    border-bottom-color: currentColor;
+    color: #fff;
+  }
   .item {
-    height: 60px;
+    .info {
+      flex: 1;
+      margin-left: 10px;
+    }
+    .th-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+    }
+    .bh-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 20px;
+    }
   }
 }

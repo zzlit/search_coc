@@ -1,6 +1,11 @@
 // @import "~taro-ui/dist/style/components/button.scss";
 
 .index {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30%;
+  transform: translateY(-30%);
   .tab {
     width: 80%;
     height: 80px;
@@ -20,13 +25,10 @@
       margin: 0;
       border-radius: 50px 0 0 50px;
       &:before {
-        position: absolute;
-        content: '#';
-        left: 20px;
-        top: 50%;
-        font-size: 32px;
-        color: #9B9B9B;
-        transform: translateY(-50%);
+        content: '';
+        width: 30px;
+        height: 30px;
+        background-image: url('../../static/images/seearch.png');
       }
     }
     .search-btn {
