@@ -25,7 +25,7 @@ class Index extends Component {
     console.log(this.props, nextProps)
   }
 
-  handleChange (e) {
+  handleChangeClans (e) {
     this.setState({
       flag: e.target.value
     })
@@ -38,30 +38,44 @@ class Index extends Component {
   }
 
   handlePlayerId (e) {
+    // this.throttling(encodeURI(value))
     this.setState({
       playerFlag: e.target.value
     })
   }
 
+  // 节流
+  // throttling(code) {
+  //   clearTimeout(this.state.time)
+  //   this.setState({
+  //     time: setTimeout(() => { this.getPersonInfo(code) }, 500)
+  //   })
+  // }
+
+  // 获得玩家信息
+  // async getPersonInfo(code) {
+  //   let res = await api.get(`search/players?q=${code}&page=0&nameEquality=false`)
+  //   console.log(res)
+  // }
+  
   async toPersonInfo () {
-    // Taro.showLoading({
-    //   title: '正在搜索',
-    //   mask: true
-    // })
-    let search = await api.get('search/players?q=%E8%8D%86%E6%A3%98%E3%80%82&page=0&nameEquality=false')
-    console.log(search)
-    // let res = await api.get(`v1/players/%23${this.state.playerFlag}`)
-    // if (res.statusCode * 1 === 200) {
-    //   Taro.hideLoading()
-    //   this.setState({
-    //     playerInfo: res.data
-    //   }, () => {
-    //     this.$preload('personInfo', this.state.playerInfo)
-    //     Taro.navigateTo({
-    //       url: '/pages_sub/index/person_info/index'
-    //     })
-    //   })
-    // }
+    Taro.showLoading({
+      title: '正在搜索',
+      mask: true
+    })
+    let res = await api.get(`search/players?q=${encodeURI(this.state.playerFlag)}&page=0&nameEquality=false`)
+    console.log(res)
+    if (res.statusCode * 1 === 200) {
+      Taro.hideLoading()
+      // this.setState({
+      //   playerInfo: res.data
+      // }, () => {
+      //   this.$preload('personInfo', this.state.playerInfo)
+      //   Taro.navigateTo({
+      //     url: '/pages_sub/index/person_info/index'
+      //   })
+      // })
+    }
   }
 
   async toClanInfo() {
@@ -92,7 +106,7 @@ class Index extends Component {
               onInput={this.handlePlayerId.bind(this)}
               className='input font-14 bg-fff relative'
               type='text'
-              placeholder='请输入名称或者标签'
+              placeholder='请直接输入玩家名称或者玩家标签'
               placeholderStyle='color: #9B9B9B; font-size: 14px;'
             />
             <AtButton
@@ -110,10 +124,10 @@ class Index extends Component {
           <View className='content flex-center'>
             <Input
               value={flag}
-              onInput={this.handleChange.bind(this)}
+              onInput={this.handleChangeClans.bind(this)}
               className='input font-14 bg-fff relative'
               type='text'
-              placeholder='请输入名称或者标签'
+              placeholder='请直接输入部落名称或者部落标签'
               placeholderStyle='color: #9B9B9B; font-size: 14px;'
             />
             <AtButton
