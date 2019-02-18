@@ -1,7 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Input, Text } from '@tarojs/components'
+import { View, Input, Text, Picker } from '@tarojs/components'
 // import { connect } from '@tarojs/redux'
 import { AtButton, AtSegmentedControl } from 'taro-ui'
+import { SelectPerson } from '../../component/selectPerson'
 import api from '../../service/api'
 import './index.less'
 
@@ -15,7 +16,9 @@ class Index extends Component {
     super(...arguments)
     this.state = {
       playerInfo: {},
+      playersList: [],
       playerFlag: '',
+      selectShow: true,
       flag: '',
       current: 0
     }
@@ -38,25 +41,10 @@ class Index extends Component {
   }
 
   handlePlayerId (e) {
-    // this.throttling(encodeURI(value))
     this.setState({
       playerFlag: e.target.value
     })
   }
-
-  // 节流
-  // throttling(code) {
-  //   clearTimeout(this.state.time)
-  //   this.setState({
-  //     time: setTimeout(() => { this.getPersonInfo(code) }, 500)
-  //   })
-  // }
-
-  // 获得玩家信息
-  // async getPersonInfo(code) {
-  //   let res = await api.get(`search/players?q=${code}&page=0&nameEquality=false`)
-  //   console.log(res)
-  // }
   
   async toPersonInfo () {
     Taro.showLoading({
@@ -65,7 +53,8 @@ class Index extends Component {
     })
     let res = await api.get(`search/players?q=${encodeURI(this.state.playerFlag)}&page=0&nameEquality=false`)
     console.log(res)
-    if (res.statusCode * 1 === 200) {
+    let {statusCode, data} = res
+    if (statusCode * 1 === 200) {
       Taro.hideLoading()
       // this.setState({
       //   playerInfo: res.data
@@ -75,18 +64,31 @@ class Index extends Component {
       //     url: '/pages_sub/index/person_info/index'
       //   })
       // })
+      this.setState({
+        playersList: data.items,
+        selectShow: true
+      })
     }
   }
 
+  choosePerson (id) {
+    console.log(id)
+  }
+
+  toHide () {
+    this.setState({
+      selectShow: false
+    })
+  }
+
   async toClanInfo() {
-    // let res = await api.get('v1/clans?name=')
     Taro.navigateTo({
       url: '/pages_sub/index/clan_info/index'
     })
   }
 
   render () {
-    let { flag, playerFlag, current } = this.state
+    let { flag, playerFlag, playersList, current, selectShow } = this.state
     const tab = ['玩家', '部落']
     return (
       <View className='index'>
@@ -99,8 +101,7 @@ class Index extends Component {
           current={current}
         />
         {
-          current === 0 &&
-          <View className='content flex-center'>
+          current === 0 && <View className='content flex-center'>
             <Input
               value={playerFlag}
               onInput={this.handlePlayerId.bind(this)}
@@ -120,8 +121,7 @@ class Index extends Component {
           </View>
         }
         {
-          current === 1 &&
-          <View className='content flex-center'>
+          current === 1 && <View className='content flex-center'>
             <Input
               value={flag}
               onInput={this.handleChangeClans.bind(this)}
@@ -139,6 +139,9 @@ class Index extends Component {
               <Text className='font-14'>搜索</Text>
             </AtButton>
           </View>
+        }
+        {
+          selectShow && <SelectPerson list={playersList} onChoose={this.choosePerson.bind(this)} onHide={this.toHide.bind(this)} />
         }
       </View>
     )
