@@ -10,46 +10,32 @@ export default class SelectPerson extends Component {
 
   static defaultProps = {
     list: [],
-    onHide: () => {},
     onChoose: () => {}
   }
 
-  onChoose (index) {
-    this.props.onChoose(index)
-  }
-
-  onHide () {
-    this.props.onHide(false)
+  toPersonInfo (flag) {
+    this.props.onChoose(flag)
   }
 
   render () {
-    let { list: { name, className, tag, townHallLevel, builderHallLevel } } = this.props
+    let { list } = this.props
     return (
       <View className='operate bg-fff relative'>
-      {/*
+      {
         list.map((item, index) => {
           return (
-            <View className='item' key={index}>
-              <Text className='item font-14'>{name}</Text>
-              <Text className='item font-14'>{clanName}</Text>
-              <Text className='item font-14'>{tag}</Text>
-              <Text className='item font-14'>{townHallLevel}</Text>
-              <Text className='item font-14'>{builderHallLevel}</Text>
+            <View className='item flex-center' key={index} onClick={this.toPersonInfo.bind(this, item.tag)}>
+              <Image src={`${image_url}base_camp/th_${item.townHallLevel}.png`} className="th-image" />
+              {/* <Image src={`${image_url}base_camp/bh_${item.builderHallLevel}.png`} className="bh-image" /> */}
+              <View className='info'>
+                <Text className='font-18 color-101'>{item.name}</Text>
+                <Text className='font-14 color-b0b'>{item.tag}</Text>
+                <Text className='font-14 color-b0b block'>{item.clanName ? item.clanName : ''}</Text>
+              </View>
             </View>
           )
-        })*/
+        })
       }
-        <View className='item flex-center'>
-          {/* <Image src={`${image_url}base_camp/th_${townHallLevel}.png`} className="th-image" /> */}
-          {/* <Image src={`${image_url}base_camp/bh_${builderHallLevel}.png`} className="bh-image" /> */}
-          <Image src={image_url + 'base_camp/th_12.png'} className="th-image" />
-          <View className='info'>
-            <Text className='font-18 color-101'>荆棘。</Text>
-            <Text className='font-14 color-b0b'>#L9J888CRP</Text>
-            {/* <Image src={image_url + 'base_camp/bh_8.png'} className="bh-image" /> */}
-            <Text className='font-14 color-b0b block'>水手公园</Text>
-          </View>
-        </View>
       </View>
     )
   }

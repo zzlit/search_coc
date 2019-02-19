@@ -18,7 +18,7 @@ class Index extends Component {
       playerInfo: {},
       playersList: [],
       playerFlag: '',
-      selectShow: true,
+      selectShow: false,
       flag: '',
       current: 0
     }
@@ -41,34 +41,35 @@ class Index extends Component {
   }
 
   handlePlayerId (e) {
+    if (!e.target.value) {
+      this.setState({
+        selectShow: false
+      })
+    }
     this.setState({
       playerFlag: e.target.value
     })
   }
   
-  async toPersonInfo () {
+  async searchPersonInfo () {
     Taro.showLoading({
       title: '正在搜索',
       mask: true
     })
-    let res = await api.get(`search/players?q=${encodeURI(this.state.playerFlag)}&page=0&nameEquality=false`)
-    console.log(res)
-    let {statusCode, data} = res
+    let {statusCode, data} = await api.get(`search/players?q=${encodeURI(this.state.playerFlag)}&page=0&nameEquality=false`)
+    Taro.hideLoading()
     if (statusCode * 1 === 200) {
-      Taro.hideLoading()
-      // this.setState({
-      //   playerInfo: res.data
-      // }, () => {
-      //   this.$preload('personInfo', this.state.playerInfo)
-      //   Taro.navigateTo({
-      //     url: '/pages_sub/index/person_info/index'
-      //   })
-      // })
       this.setState({
         playersList: data.items,
         selectShow: true
       })
     }
+  }
+
+  toPersonInfo (tag) {
+    Taro.navigateTo({
+      url: `/pages_sub/index/person_info/index?tag=${tag.substr(1)}`
+    })
   }
 
   choosePerson (id) {
@@ -113,7 +114,7 @@ class Index extends Component {
             <AtButton
               type='primary'
               className='search-btn flex-center bg-6A5'
-              onClick={this.toPersonInfo.bind(this)}
+              onClick={this.searchPersonInfo.bind(this)}
               disabled={!playerFlag}
             >
               <Text className='font-14'>搜索</Text>
@@ -141,7 +142,7 @@ class Index extends Component {
           </View>
         }
         {
-          selectShow && <SelectPerson list={playersList} onChoose={this.choosePerson.bind(this)} onHide={this.toHide.bind(this)} />
+          selectShow && <SelectPerson list={playersList} onChoose={this.toPersonInfo.bind(this)} />
         }
       </View>
     )

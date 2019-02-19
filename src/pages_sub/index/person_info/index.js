@@ -6,7 +6,8 @@ import Hero from '../../../component/hero/index'
 import Troops from '../../../component/troops/index'
 import Spells from '../../../component/spells/index'
 import Achievements from '../../../component/achievements/index'
-import { playerInfo } from '../../../utils/json'
+// import { playerInfo } from '../../../utils/json'
+import api from '../../../service/api'
 import './index.less'
 
 class Info extends Component {
@@ -18,20 +19,28 @@ class Info extends Component {
   constructor () {
     super(...arguments)
     this.state = {
-      // info: {}
+      info: {}
     }
   }
 
-  // componentWillMount() {
-  //   console.log('preload: ', this.$router.preload.personInfo)
-  //   this.setState({
-  //     info: this.$router.preload.personInfo
-  //   })
-  // }
+  componentWillPreload (params) {
+    return this.getPersonInfo(params.tag)
+  }
+
+  async getPersonInfo (tag) {
+    Taro.showLoading({
+      title: '正在加载',
+      mask: true
+    })
+    let {statusCode, data} = await api.get(`players/${tag}`)
+    console.log(data)
+    this.setState({
+      info: statusCode * 1 === 200 ? data : {}
+    }, () => { Taro.hideLoading() })
+  }
 
   render () {
-    // let { info } = this.state
-    let info = playerInfo
+    let { info } = this.state
     return (
       <View className='index'>
         <Text className='font-16'>姓名：{info.name}</Text>
@@ -43,8 +52,7 @@ class Info extends Component {
         <Text className='font-14'>夜世界大本营等级：{info.builderHallLevel}</Text>
         <Text className='font-14'>夜世界杯数：{info.versusTrophies}</Text>
         <Text className='font-14'>夜世界最高杯：{info.bestVersusTrophies}</Text>
-        <Text className='font-14'>夜世界总进攻获胜：{info.versusBattleWinCount}</Text>
-        <Text className='font-14'>夜世界当前获胜（猜测没有的话就返回的是总获胜）：{info.versusBattleWins}</Text>
+        <Text className='font-14'>夜世界总进攻获胜：{info.versusBattleWins}</Text>
         <Text className='font-14'>攻击获胜：{info.attackWins}</Text>
         <Text className='font-14'>防守获胜：{info.defenseWins}</Text>
         <Text className='font-14'>捐兵：{info.donations}</Text>
@@ -53,7 +61,7 @@ class Info extends Component {
         <Text className='font-14'>最高杯数：{info.bestTrophies}</Text>
         <Text className='font-14'>战争星星：{info.warStars}</Text>
         {/* <Image src={info.league['iconUrls'].small} /> */}
-        <AtAccordion title='英雄'>
+        {/* <AtAccordion title='英雄'>
           <Hero data={info.heroes} />
         </AtAccordion>
         <AtAccordion title='军队'>
@@ -64,7 +72,7 @@ class Info extends Component {
         </AtAccordion>
         <AtAccordion title='成就'>
           <Achievements data={info.achievements} />
-        </AtAccordion>
+        </AtAccordion> */}
       </View>
     )
   }
