@@ -7,6 +7,7 @@ import Troops from '../../../component/troops/index'
 import Spells from '../../../component/spells/index'
 import Achievements from '../../../component/achievements/index'
 // import { playerInfo } from '../../../utils/json'
+import {image_url} from '../../../service/config'
 import api from '../../../service/api'
 import './index.less'
 
@@ -27,13 +28,17 @@ class Info extends Component {
     return this.getPersonInfo(params.tag)
   }
 
+  componentDidMount () {
+    this.getPersonInfo()
+  }
+
   async getPersonInfo (tag) {
     Taro.showLoading({
       title: '正在加载',
       mask: true
     })
-    let {statusCode, data} = await api.get(`players/${tag}`)
-    console.log(data)
+    // let {statusCode, data} = await api.get(`players/${tag}`)
+    let {statusCode, data} = await api.get(`players/YRY20V0P`)
     this.setState({
       info: statusCode * 1 === 200 ? data : {}
     }, () => { Taro.hideLoading() })
@@ -43,11 +48,16 @@ class Info extends Component {
     let { info } = this.state
     return (
       <View className='index'>
-        <Text className='font-16'>姓名：{info.name}</Text>
+        <View className='content'>
+          <Image src={`${image_url}base_camp/th_${info.townHallLevel}.png`} className="th-image" />
+          <Text className='font-16'>{info.name}</Text>
+          <View className="level flex-center">
+            <Image src={`${image_url}achivements/exp.png`} className="exp-image" />
+            <Text className='font-14'>{info.expLevel}</Text>
+          </View>
+        </View>
         <Text className='font-14'>角色：{info.role}</Text>
-        <Text className='font-14'>等级：{info.expLevel}</Text>
         <Text className='font-14'>标签：{info.tag}</Text>
-        <Text className='font-14'>大本营等级：{info.townHallLevel}</Text>
         <Text className='font-14'>大本营星星等级：{info.townHallWeaponLevel}</Text>
         <Text className='font-14'>夜世界大本营等级：{info.builderHallLevel}</Text>
         <Text className='font-14'>夜世界杯数：{info.versusTrophies}</Text>

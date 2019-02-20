@@ -1,4 +1,27 @@
+@border-radius: 10px;
 .index {
-  padding: 0 36px;
   box-sizing: border-box;
+  background-color: aquamarine;
+  .content {
+    width: 90%;
+    margin: 0 auto;
+    border-radius: @border-radius;
+    background-color: #9e81d1;
+    .th-image {
+      width: 100px;
+      height: 100px;
+      border-radius: @border-radius;
+    }
+    .level {
+      width: 140px;
+      padding: 0 6px;
+      border-radius: @border-radius;
+      background-color: #2196f3;
+      .exp-image {
+        width: 52px;
+        height: 52px;
+        margin-right: 18px;
+      }
+    }
+  }
 }
