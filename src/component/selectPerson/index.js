@@ -25,8 +25,8 @@ export default class SelectPerson extends Component {
         list.map((item, index) => {
           return (
             <View className='item flex-center' key={index} onClick={this.toPersonInfo.bind(this, item.tag)}>
-              <Image src={`${image_url}base_camp/th_${item.townHallLevel}.png`} className="th-image" />
-              {/* <Image src={`${image_url}base_camp/bh_${item.builderHallLevel}.png`} className="bh-image" /> */}
+              <Image src={`${image_url}base_camp/th_${item.townHallLevel}.png`} className='th-image' />
+              {/* <Image src={`${image_url}base_camp/bh_${item.builderHallLevel}.png`} className='bh-image' /> */}
               <View className='info'>
                 <Text className='font-18 color-101'>{item.name}</Text>
                 <Text className='font-14 color-b0b'>{item.tag}</Text>

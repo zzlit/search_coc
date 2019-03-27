@@ -56,7 +56,13 @@ class Index extends Component {
       title: '正在搜索',
       mask: true
     })
-    let {statusCode, data} = await api.get(`search/players?q=${encodeURI(this.state.playerFlag)}&page=0&nameEquality=false`)
+    let searchName
+    if (this.state.playerFlag.indexOf('#') === 0) {
+      searchName = '%23' + this.state.playerFlag.slice(1)
+    } else {
+      searchName = encodeURI(this.state.playerFlag)
+    }
+    let {statusCode, data} = await api.get(`search/players?q=${searchName}&page=0&nameEquality=false`)
     Taro.hideLoading()
     if (statusCode * 1 === 200) {
       this.setState({
